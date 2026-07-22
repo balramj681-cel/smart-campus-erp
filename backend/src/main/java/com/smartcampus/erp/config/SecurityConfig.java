@@ -1,7 +1,9 @@
 package com.smartcampus.erp.config;
 
+import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -231,14 +233,20 @@ public class SecurityConfig {
      * @return the {@link CorsConfigurationSource} consulted by the filter
      * chain's {@code .cors(...)} configurer
      */
+    @Value("${cors.allowed-origins:http://localhost:5173}")
+    private String allowedOrigins;
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of(
-                "http://localhost:*",
-                "http://127.0.0.1:*",
-                "http://10.212.45.*:*"
-        ));
+        // Reads from the `cors.allowed-origins` property (CORS_ALLOWED_ORIGINS env
+        // var in prod), comma-separated. Falls back to the local Vite dev server
+        // if the property isn't set, so local `mvn spring-boot:run` keeps working.
+        configuration.setAllowedOriginPatterns(
+                Arrays.stream(allowedOrigins.split(","))
+                        .map(String::trim)
+                        .toList()
+        );
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         // Permits cookies/credentialed requests for a future httpOnly refresh-token
