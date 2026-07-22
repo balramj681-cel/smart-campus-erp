@@ -1,0 +1,122 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap");
+
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ── Design Tokens (Tailwind v4 @theme) ──────────────────────────────── */
+@theme {
+  --font-sans: "Poppins", system-ui, sans-serif;
+
+  /* Brand palette — indigo core */
+  --color-brand-50: #eef2ff;
+  --color-brand-100: #e0e7ff;
+  --color-brand-200: #c7d2fe;
+  --color-brand-400: #818cf8;
+  --color-brand-500: #6366f1;
+  --color-brand-600: #4f46e5;
+  --color-brand-700: #4338ca;
+  --color-brand-900: #312e81;
+
+  /* Accent — vibrant, dashboard cards ke liye */
+  --color-accent-teal: #0d9488;
+  --color-accent-orange: #ea580c;
+  --color-accent-pink: #db2777;
+  --color-accent-cyan: #0891b2;
+
+  /* Neutral surface tones */
+  --color-surface: #ffffff;
+  --color-surface-muted: #f8f7ff;
+  --color-surface-border: #e5e7eb;
+
+  --shadow-soft: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 3px 0 rgba(0, 0, 0, 0.06);
+  --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
+  --shadow-hover: 0 8px 24px -4px rgba(79, 70, 229, 0.18);
+  --shadow-glow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+
+  --radius-xl: 0.875rem;
+  --radius-2xl: 1.25rem;
+}
+
+:root {
+  font-family: "Poppins", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root {
+  margin: 0; padding: 0; width: 100%; min-height: 100%;
+  background: linear-gradient(180deg, #f8f7ff 0%, #f5f5fa 100%);
+  background-attachment: fixed;
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d4d4d8; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #a1a1aa; }
+
+button, a, select, input { transition: all 0.15s ease; }
+
+:focus-visible {
+  outline: 2px solid var(--color-brand-500);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection { background: var(--color-brand-100); color: var(--color-brand-700); }
+
+
+/* Smooth, consistent transitions har interactive element pe */
+button, a, select, input {
+  transition: all 0.15s ease;
+}
+
+/* Focus rings zyada refined — harsh blue outline ki jagah */
+:focus-visible {
+  outline: 2px solid var(--color-brand-500);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Selection color brand ke sath match kare */
+::selection {
+  background: var(--color-brand-100);
+  color: var(--color-brand-700);
+}
+
+:root {
+  font-family: "Poppins", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  background-color: var(--color-surface-muted);
+}
+
+/* Thin, unobtrusive scrollbar — polish touch */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d4d4d8;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1aa;
+}
