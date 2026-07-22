@@ -1,40 +1,19 @@
-# =========================
-# OS
-# =========================
-.DS_Store
-Thumbs.db
-
-# =========================
-# IDE
-# =========================
-.idea/
-.vscode/
-*.iml
-
-# =========================
-# Backend
-# =========================
+# Backend build output
 backend/target/
 backend/uploads/
-backend/.env
-backend/application-local.yml
 
-# =========================
+# Backend real secrets (only application.yaml with real values)
+backend/src/main/resources/application-local.yaml
+backend/src/main/resources/application-secrets.yaml
+
 # Frontend
-# =========================
 frontend/node_modules/
 frontend/dist/
 frontend/.env
 frontend/.env.local
 
-# =========================
-# Logs
-# =========================
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
 *.log
-
-# =========================
-# Environment
-# =========================
-.env
-.env.*
-!.env.example
