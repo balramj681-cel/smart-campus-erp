@@ -33,15 +33,14 @@ spring:
       max-file-size: 25MB
       max-request-size: 25MB
 
-
-  management:
+management:
   endpoints:
     web:
       exposure:
         include: health
   health:
     mail:
-      enabled: false  
+      enabled: false
 
 server:
   port: ${PORT:8080}
@@ -58,7 +57,6 @@ otp:
   max-attempts: 3
 
 twilio:
-  twilio:
   account-sid: ${TWILIO_ACCOUNT_SID:disabled}
   auth-token: ${TWILIO_AUTH_TOKEN:disabled}
   phone-number: ${TWILIO_PHONE_NUMBER:+10000000000}
