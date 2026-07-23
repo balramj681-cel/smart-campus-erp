@@ -61,6 +61,11 @@ twilio:
   auth-token: ${TWILIO_AUTH_TOKEN:disabled}
   phone-number: ${TWILIO_PHONE_NUMBER:+10000000000}
 
+brevo:
+  api-key: ${BREVO_API_KEY}
+  sender-email: ${BREVO_SENDER_EMAIL}
+  sender-name: Smart Campus ERP  
+
 cors:
   allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173}
 

@@ -1,6 +1,6 @@
-
 package com.smartcampus.erp.application.auth.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smartcampus.erp.domain.auth.User;
 import com.smartcampus.erp.infrastructure.persistence.auth.repository.UserRepository;
 
@@ -12,14 +12,19 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.security.SecureRandom;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 /**
  * OTP generate karta hai, Email + SMS se bhejta hai,
@@ -28,6 +33,13 @@ import java.time.LocalDateTime;
  * Flow:
  *  1. sendOtp()   → 6-digit OTP generate → DB mein hash store → Email + SMS bhejo
  *  2. verifyOtp() → OTP match karo → match hone pe clear karo → true return karo
+ *
+ * NOTE: Email ab SMTP (JavaMailSender) ke bajaye Brevo ke HTTP API se bhejta hai.
+ * Wajah: Render (aur bahut saare cloud hosts) apne free/starter tiers pe outbound
+ * SMTP ports (25/465/587) block karte hain spam-abuse rokne ke liye — is se
+ * Gmail SMTP connect hi nahi ho pata production mein. Brevo ka API plain HTTPS
+ * (port 443) pe chalta hai, jo kabhi block nahi hota. Baaki poora flow
+ * (OTP generate, hash, verify, attempts, expiry) bilkul waisa hi hai.
  */
 @Slf4j
 @Service
@@ -36,7 +48,12 @@ public class OtpService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JavaMailSender mailSender;
+
+    private static final HttpClient HTTP_CLIENT = HttpClient.newBuilder()
+            .connectTimeout(Duration.ofSeconds(10))
+            .build();
+    private static final ObjectMapper JSON = new ObjectMapper();
+    private static final String BREVO_ENDPOINT = "https://api.brevo.com/v3/smtp/email";
 
     @Value("${otp.expiry-minutes:10}")
     private int otpExpiryMinutes;
@@ -53,8 +70,14 @@ public class OtpService {
     @Value("${twilio.phone-number}")
     private String twilioPhoneNumber;
 
-    @Value("${spring.mail.username}")
-    private String fromEmail;
+    @Value("${brevo.api-key}")
+    private String brevoApiKey;
+
+    @Value("${brevo.sender-email}")
+    private String senderEmail;
+
+    @Value("${brevo.sender-name:Smart Campus ERP}")
+    private String senderName;
 
     // ─── 1. OTP Generate & Send ───────────────────────────────────────────────
 
@@ -141,22 +164,45 @@ public class OtpService {
         return String.valueOf(otp);
     }
 
+    /**
+     * Brevo ke transactional-email HTTP API se OTP email bhejta hai.
+     * Behavior purane SMTP wale version jaisa hi hai: fail hone pe
+     * RuntimeException throw karta hai (registration/login flow isse catch
+     * karke user ko error dikhata hai) — sirf "kaise bhejta hai" badla hai.
+     */
     private void sendOtpEmail(String to, String name, String otp) {
         try {
-            SimpleMailMessage msg = new SimpleMailMessage();
-            msg.setFrom(fromEmail);
-            msg.setTo(to);
-            msg.setSubject("Smart Campus ERP — Your Verification OTP");
-            msg.setText(
+            String textContent =
                 "Hi " + name + ",\n\n" +
                 "Your OTP for account verification is:\n\n" +
                 "    " + otp + "\n\n" +
                 "This OTP is valid for " + otpExpiryMinutes + " minutes.\n" +
                 "Do not share this code with anyone.\n\n" +
-                "— Smart Campus ERP Team"
+                "— Smart Campus ERP Team";
+
+            Map<String, Object> payload = Map.of(
+                "sender", Map.of("name", senderName, "email", senderEmail),
+                "to", List.of(Map.of("email", to, "name", name)),
+                "subject", "Smart Campus ERP — Your Verification OTP",
+                "textContent", textContent
             );
-            mailSender.send(msg);
-            log.debug("[OTP] Email sent to {}", to);
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(BREVO_ENDPOINT))
+                    .timeout(Duration.ofSeconds(15))
+                    .header("accept", "application/json")
+                    .header("api-key", brevoApiKey)
+                    .header("content-type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(JSON.writeValueAsString(payload)))
+                    .build();
+
+            HttpResponse<String> response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() != 201) {
+                throw new RuntimeException("Brevo API returned status " + response.statusCode() + ": " + response.body());
+            }
+
+            log.debug("[OTP] Email sent to {} via Brevo", to);
         } catch (Exception e) {
             log.error("[OTP] Email send failed to {}: {}", to, e.getMessage());
             throw new RuntimeException("Failed to send OTP email. Please try again.");
