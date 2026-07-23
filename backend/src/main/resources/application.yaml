@@ -38,7 +38,10 @@ spring:
   endpoints:
     web:
       exposure:
-        include: health    
+        include: health
+  health:
+    mail:
+      enabled: false  
 
 server:
   port: ${PORT:8080}
