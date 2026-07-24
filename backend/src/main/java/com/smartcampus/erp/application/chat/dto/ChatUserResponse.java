@@ -12,4 +12,5 @@ public class ChatUserResponse {
     private String name;
     private String email;
     private String role;
+    private String photoUrl;
 }

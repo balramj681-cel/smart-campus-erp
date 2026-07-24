@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Loader2, MessageCircle, Search, Send, Trash2, X, User as UserIcon, Check, CheckCheck } from "lucide-react";
+import { Loader2, MessageCircle, Search, Send, Trash2, X, User as UserIcon, Check, CheckCheck, ArrowLeft } from "lucide-react";
 import toast from "react-hot-toast";
 import { chatService } from "../../services/chatService";
 import { useAuth } from "../../hooks/useAuth";
 import { connectWebSocket, subscribe } from "../../services/websocket";
+import { photoUrl as resolvePhotoUrl } from "../../services/profileService";
 
 const MESSAGE_POLL_MS = 4000;
 const CONVERSATION_POLL_MS = 8000;
@@ -16,7 +17,22 @@ function initials(name) {
     return (name ?? "?").split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
 }
 
-function Avatar({ name, size = 36 }) {
+function Avatar({ name, photo, size = 36 }) {
+    const [imgError, setImgError] = useState(false);
+    const src = photo ? resolvePhotoUrl(photo) : null;
+
+    if (src && !imgError) {
+        return (
+            <img
+                src={src}
+                alt={name ?? "User"}
+                onError={() => setImgError(true)}
+                className="flex-shrink-0 rounded-full object-cover"
+                style={{ width: size, height: size }}
+            />
+        );
+    }
+
     return (
         <div className="flex-shrink-0 rounded-full bg-indigo-100 text-indigo-600 font-semibold flex items-center justify-center"
             style={{ width: size, height: size, fontSize: size * 0.38 }}>
@@ -234,7 +250,7 @@ export default function ChatPage() {
     return (
         <div className="flex h-[calc(100vh-4rem)] bg-white">
             {/* ── Conversation list ─────────────────────────────────────────── */}
-            <div className="w-full sm:w-80 flex-shrink-0 border-r border-slate-200 flex flex-col">
+            <div className={`${active ? "hidden sm:flex" : "flex"} w-full sm:w-80 flex-shrink-0 border-r border-slate-200 flex-col`}>
                 <div className="flex items-center justify-between px-4 py-3.5 border-b border-slate-100">
                     <h1 className="text-base font-semibold text-slate-800">Messages</h1>
                     <button onClick={() => setShowDirectory(true)}
@@ -256,7 +272,7 @@ export default function ChatPage() {
                             <div key={c.id}
                                 className={`group flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition-colors border-b border-slate-50 cursor-pointer ${active?.id === c.id ? "bg-indigo-50" : ""}`}
                                 onClick={() => openConversation(c)}>
-                                <Avatar name={c.otherUserName} />
+                                <Avatar name={c.otherUserName} photo={c.otherUserPhotoUrl} />
                                 <div className="flex-1 min-w-0">
                                     <div className="flex items-center justify-between">
                                         <p className="text-sm font-medium text-slate-800 truncate">{c.otherUserName}</p>
@@ -281,7 +297,7 @@ export default function ChatPage() {
             </div>
 
             {/* ── Active thread ──────────────────────────────────────────────── */}
-            <div className="hidden sm:flex flex-1 flex-col">
+            <div className={`${active ? "flex" : "hidden sm:flex"} flex-1 flex-col`}>
                 {!active ? (
                     <div className="flex-1 flex flex-col items-center justify-center text-slate-300 gap-2">
                         <MessageCircle size={40} />
@@ -291,7 +307,12 @@ export default function ChatPage() {
                     <>
                         <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-100">
                             <div className="flex items-center gap-3">
-                                <Avatar name={active.otherUserName} size={32} />
+                                <button
+                                    onClick={() => setActive(null)}
+                                    className="sm:hidden -ml-1 p-1.5 rounded-lg text-slate-500 hover:bg-slate-100">
+                                    <ArrowLeft size={18} />
+                                </button>
+                                <Avatar name={active.otherUserName} photo={active.otherUserPhotoUrl} size={32} />
                                 <div>
                                     <p className="text-sm font-semibold text-slate-800">{active.otherUserName}</p>
                                     <p className="text-xs text-slate-400">{active.otherUserRole}</p>
@@ -364,7 +385,7 @@ export default function ChatPage() {
                                 {dirResults.map(u => (
                                     <button key={u.id} onClick={() => startChat(u)}
                                         className="w-full flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-slate-50 text-left transition-colors">
-                                        <Avatar name={u.name} size={32} />
+                                        <Avatar name={u.name} photo={u.photoUrl} size={32} />
                                         <div className="min-w-0">
                                             <p className="text-sm font-medium text-slate-800 truncate">{u.name}</p>
                                             <p className="text-xs text-slate-400 truncate">{u.role} · {u.email}</p>

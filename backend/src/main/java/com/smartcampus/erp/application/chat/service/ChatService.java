@@ -54,6 +54,7 @@ public class ChatService {
                 .name(u.getFirstName() + " " + u.getLastName())
                 .email(u.getEmail())
                 .role(u.getRole().name())
+                .photoUrl(u.getPhotoUrl())
                 .build())
                 .collect(Collectors.toList());
     }
@@ -200,6 +201,7 @@ public class ChatService {
                 .otherUserName(other.getFirstName() + " " + other.getLastName())
                 .otherUserEmail(other.getEmail())
                 .otherUserRole(other.getRole().name())
+                .otherUserPhotoUrl(other.getPhotoUrl())
                 .lastMessagePreview(c.getLastMessagePreview())
                 .lastMessageAt(c.getLastMessageAt())
                 .unreadCount(unread)
