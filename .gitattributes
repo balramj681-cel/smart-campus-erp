@@ -1,0 +1,21 @@
+# Normalize line endings
+* text=auto eol=lf
+
+*.java text diff=java
+*.jsx text
+*.js text
+*.css text
+*.md text
+*.yml text
+*.yaml text
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.svg binary
+*.ico binary
+
+# Language detection hints for GitHub's linguist
+*.jsx linguist-language=JavaScript
+docs/* linguist-documentation
