@@ -61,48 +61,45 @@ It's built the way a production application should be: a layered, modular backen
 
 <br/>
 
-✨ Features
-<table> <tr> <td valign="top" width="33%">
-
-🔐 Core & Access
-
-JWT Authentication (access + refresh tokens)
-Email OTP Verification (register / login)
-Role-Based Access Control (Admin, Faculty, Student)
-User Management (admin CRUD over accounts)
-Profile Management (with photo upload)
-Real-time Chat (STOMP/WebSocket, 1:1 messaging with DP)
-Notifications (in-app)
-Notice Board
-</td> <td valign="top" width="33%">
-
-🎓 Academics
-
-Academic Structure (departments / programs)
-Course Management
-Faculty Management
-Student Management
-Timetable Management
-Attendance (manual + QR-code based)
-Academic Calendar
-Examinations
-Marks / Gradebook
-Coursework Assignments
-Assignment Submissions
-Course Feedback
-</td> <td valign="top" width="34%">
-
-🏫 Campus Operations
-
-Fee Management (collection tracking, dues)
-Library Management
-Leave Management (apply / approve workflow)
-Grievance Portal
-Document Center (upload/download)
-Reports (institution-level exports)
-Analytics (dashboard stats — attendance %, fee collection, etc.)
-</td> </tr> </table>
-
+✨ Key Features
+<table> <tr> <td width="50%" valign="top">
+🔐 Authentication & Access
+JWT-based authentication (access + refresh tokens)
+Role-based access — Admin / Faculty / Student
+Email OTP verification on signup
+Profile management with photo upload
+Stateless, filter-based session security
+🎓 Academic Management
+Academic structure — departments & programs
+Course management
+Faculty & Student directories
+Timetable management
+Academic calendar
+📋 Attendance & Examinations
+Manual attendance
+QR-code based attendance
+Examinations & marks / gradebook
+Coursework assignments & submissions
+Course feedback collection
+</td> <td width="50%" valign="top">
+💬 Communication & Campus Life
+Real-time 1:1 chat (STOMP over WebSocket) with profile DPs
+In-app notifications
+Notice board
+Leave management with approval workflow
+Grievance portal
+💰 Operations & Reports
+Fee management — collection & dues tracking
+Library management
+Document center (upload/download)
+Institution-level reports
+Analytics dashboard with live charts
+🎨 Experience
+Fully responsive, mobile-first UI (WhatsApp-style chat on mobile)
+Dark mode across the entire app
+Animated, modern interface (Framer Motion)
+CDN-backed media via ImageKit
+</td> </tr> </table> 
 <br/>
 
 ## 🛠 Tech Stack
