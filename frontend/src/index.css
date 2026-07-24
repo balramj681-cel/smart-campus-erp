@@ -120,3 +120,108 @@ body,
 ::-webkit-scrollbar-thumb:hover {
   background: #a1a1aa;
 }
+/* ── Dark Mode — app-wide overrides ──────────────────────────────────────
+ * Poore app mein 50+ files mein "bg-white", "text-slate-XXX" jaise Tailwind
+ * utility classes hardcoded hain. Har file mein "dark:" variant add karne
+ * ke bajaye, yahan ek hi jagah se un common classes ko dark mode ke liye
+ * override kar rahe hain — jab bhi <html> pe "dark" class lagti hai
+ * (DashboardLayout ka theme toggle isi ko control karta hai), ye rules
+ * automatically poore app pe apply ho jaate hain, koi component nahi badla.
+ */
+
+.dark body,
+.dark html,
+.dark #root {
+  background: linear-gradient(180deg, #0b1120 0%, #0f172a 100%);
+  background-attachment: fixed;
+}
+
+/* Card / surface backgrounds */
+.dark .bg-white       { background-color: #1e293b; }
+.dark .bg-slate-50     { background-color: #0f172a; }
+.dark .bg-slate-100    { background-color: #1e293b; }
+.dark .bg-slate-200    { background-color: #334155; }
+.dark .bg-brand-50     { background-color: rgba(99, 102, 241, 0.16); }
+
+/* Borders */
+.dark .border-slate-50   { border-color: #1e293b; }
+.dark .border-slate-100  { border-color: #293548; }
+.dark .border-slate-200  { border-color: #334155; }
+.dark .border-slate-300  { border-color: #475569; }
+
+/* Text */
+.dark .text-black       { color: #f1f5f9; }
+.dark .text-slate-900   { color: #f1f5f9; }
+.dark .text-slate-800   { color: #e2e8f0; }
+.dark .text-slate-700   { color: #cbd5e1; }
+.dark .text-slate-600   { color: #a3adc2; }
+.dark .text-slate-500   { color: #94a3b8; }
+.dark .text-slate-400   { color: #64748b; }
+
+/* Shadows read as harsh blotches on dark backgrounds — soften them */
+.dark * {
+  --tw-shadow-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Inputs / selects that inherit white backgrounds via browser defaults */
+.dark input,
+.dark select,
+.dark textarea {
+  background-color: #1e293b;
+  color: #e2e8f0;
+  border-color: #334155;
+}
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #64748b;
+}
+
+/* Scrollbar in dark mode */
+.dark ::-webkit-scrollbar-thumb { background: #334155; }
+.dark ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+/* ── Mobile responsiveness — app-wide fixes ──────────────────────────────
+ * Poore app mein 19 pages mein <table> use hoti hai, lekin sirf 12 mein
+ * horizontal-scroll wrapper tha — baaki 7 mein table content chhote
+ * screens pe clip ho raha tha (invisible, scroll nahi ho pa raha, kyunki
+ * layout ka `overflow-x-hidden` isse hide kar deta hai). Ye fix HAR table
+ * ko apna khud ka scrollable region banata hai — koi JSX file nahi badli.
+ */
+table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+table thead, table tbody, table tr {
+  width: 100%;
+}
+
+/* Safety net: koi bhi image/video jo container se chauda ho, wo overflow
+ * na kare — chhoti screens pe layout todne se rokta hai */
+img, video, canvas, svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Touch targets: phone pe buttons/links kam se kam 40px tap-height ke
+ * hone chahiye (Apple/Google ki accessibility guideline ~44px) */
+@media (max-width: 767px) {
+  button, a[role="button"], .btn {
+    min-height: 40px;
+  }
+
+  /* Bahut chhoti screens (320-375px) pe page padding thoda kam karo,
+   * taaki content squeeze na ho */
+  main {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  /* Modals/dialogs full-width ho jayein chhoti screens pe, bajaye
+   * fixed desktop width ke jo overflow kar sakti hai */
+  [role="dialog"] {
+    width: calc(100vw - 1.5rem) !important;
+    max-width: calc(100vw - 1.5rem) !important;
+  }
+}
