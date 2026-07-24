@@ -214,13 +214,30 @@ erDiagram
 
 ## 📸 Screenshots
 
-<div align="center">
-<i>Add screenshots/GIFs of the Dashboard, Attendance, Chat, and Fee modules here once captured — drop image files into a <code>/docs/screenshots</code> folder and reference them below.</i>
+## 📸 Screenshots
 
-```md
-<img src="docs/screenshots/dashboard.png" width="45%" />
-<img src="docs/screenshots/chat.png" width="45%" />
-```
+<div align="center">
+
+### 🔐 Login
+<img src="docs/screenshots/login.png" width="80%" />
+
+### 📊 Admin Dashboard
+<img src="docs/screenshots/dashboard.png" width="80%" />
+
+<table>
+<tr>
+<td width="50%"><img src="docs/screenshots/userManagement.png" width="100%" /><p align="center"><b>User Management</b></p></td>
+<td width="50%"><img src="docs/screenshots/acadimicStructure.png" width="100%" /><p align="center"><b>Academic Structure</b></p></td>
+<td width="50%"><img src="docs/screenshots/calander.png" width="100%" /><p align="center"><b>Academic Calendar</b></p></td>
+<td width="50%"><img src="docs/screenshots/timetable.png" width="100%" /><p align="center"><b>Timetable</b></p></td>
+<td width="50%"><img src="docs/screenshots/attendance.png" width="100%" /><p align="center"><b>Attendance</b></p></td>
+<td width="50%"><img src="docs/screenshots/qrattendance.png" width="100%" /><p align="center"><b>QR Attendance</b></p></td>
+<td width="50%"><img src="docs/screenshots/fee.png" width="100%" /><p align="center"><b>Fee Management</b></p></td>
+<td width="50%"><img src="docs/screenshots/library.png" width="100%" /><p align="center"><b>Library</b></p></td>
+<td width="50%"><img src="docs/screenshots/message.png" width="100%" /><p align="center"><b>Real-time Chat</b></p></td>
+</tr>
+</table>
+
 </div>
 
 <br/>
