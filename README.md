@@ -61,42 +61,47 @@ It's built the way a production application should be: a layered, modular backen
 
 <br/>
 
-## ✨ Features
+✨ Features
+<table> <tr> <td valign="top" width="33%">
 
-<table>
-<tr>
-<td valign="top" width="33%">
+🔐 Core & Access
 
-**🔐 Core**
-- JWT Authentication (access + refresh)
-- Role-Based Access Control
-- Email OTP Verification
-- Profile Management
+JWT Authentication (access + refresh tokens)
+Email OTP Verification (register / login)
+Role-Based Access Control (Admin, Faculty, Student)
+User Management (admin CRUD over accounts)
+Profile Management (with photo upload)
+Real-time Chat (STOMP/WebSocket, 1:1 messaging with DP)
+Notifications (in-app)
+Notice Board
+</td> <td valign="top" width="33%">
 
-</td>
-<td valign="top" width="33%">
+🎓 Academics
 
-**🎓 Academics**
-- Attendance + QR Attendance
-- Timetable Management
-- Examinations & Marks
-- Academic Calendar
-- Coursework & Assignments
+Academic Structure (departments / programs)
+Course Management
+Faculty Management
+Student Management
+Timetable Management
+Attendance (manual + QR-code based)
+Academic Calendar
+Examinations
+Marks / Gradebook
+Coursework Assignments
+Assignment Submissions
+Course Feedback
+</td> <td valign="top" width="34%">
 
-</td>
-<td valign="top" width="34%">
+🏫 Campus Operations
 
-**🏫 Campus Life**
-- Real-time Chat (STOMP/WebSocket)
-- Notice Board & Notifications
-- Library Management
-- Fee Management
-- Leave & Grievance Portal
-- Document Center & Reports
-
-</td>
-</tr>
-</table>
+Fee Management (collection tracking, dues)
+Library Management
+Leave Management (apply / approve workflow)
+Grievance Portal
+Document Center (upload/download)
+Reports (institution-level exports)
+Analytics (dashboard stats — attendance %, fee collection, etc.)
+</td> </tr> </table>
 
 <br/>
 
