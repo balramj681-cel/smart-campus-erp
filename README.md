@@ -61,45 +61,72 @@ It's built the way a production application should be: a layered, modular backen
 
 <br/>
 
-✨ Key Features
-<table> <tr> <td width="50%" valign="top">
-🔐 Authentication & Access
-JWT-based authentication (access + refresh tokens)
-Role-based access — Admin / Faculty / Student
-Email OTP verification on signup
-Profile management with photo upload
-Stateless, filter-based session security
-🎓 Academic Management
-Academic structure — departments & programs
-Course management
-Faculty & Student directories
-Timetable management
-Academic calendar
-📋 Attendance & Examinations
-Manual attendance
-QR-code based attendance
-Examinations & marks / gradebook
-Coursework assignments & submissions
-Course feedback collection
-</td> <td width="50%" valign="top">
-💬 Communication & Campus Life
-Real-time 1:1 chat (STOMP over WebSocket) with profile DPs
-In-app notifications
-Notice board
-Leave management with approval workflow
-Grievance portal
-💰 Operations & Reports
-Fee management — collection & dues tracking
-Library management
-Document center (upload/download)
-Institution-level reports
-Analytics dashboard with live charts
-🎨 Experience
-Fully responsive, mobile-first UI (WhatsApp-style chat on mobile)
-Dark mode across the entire app
-Animated, modern interface (Framer Motion)
-CDN-backed media via ImageKit
-</td> </tr> </table> 
+## ✨ Key Features
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+<h4>🔐 Authentication &amp; Access</h4>
+<ul>
+<li>JWT-based authentication (access + refresh tokens)</li>
+<li>Role-based access — Admin / Faculty / Student</li>
+<li>Email OTP verification on signup</li>
+<li>Profile management with photo upload</li>
+<li>Stateless, filter-based session security</li>
+</ul>
+
+<h4>🎓 Academic Management</h4>
+<ul>
+<li>Academic structure — departments &amp; programs</li>
+<li>Course management</li>
+<li>Faculty &amp; Student directories</li>
+<li>Timetable management</li>
+<li>Academic calendar</li>
+</ul>
+
+<h4>📋 Attendance &amp; Examinations</h4>
+<ul>
+<li>Manual attendance</li>
+<li>QR-code based attendance</li>
+<li>Examinations &amp; marks / gradebook</li>
+<li>Coursework assignments &amp; submissions</li>
+<li>Course feedback collection</li>
+</ul>
+
+</td>
+<td width="50%" valign="top">
+
+<h4>💬 Communication &amp; Campus Life</h4>
+<ul>
+<li>Real-time 1:1 chat (STOMP over WebSocket) with profile DPs</li>
+<li>In-app notifications</li>
+<li>Notice board</li>
+<li>Leave management with approval workflow</li>
+<li>Grievance portal</li>
+</ul>
+
+<h4>💰 Operations &amp; Reports</h4>
+<ul>
+<li>Fee management — collection &amp; dues tracking</li>
+<li>Library management</li>
+<li>Document center (upload/download)</li>
+<li>Institution-level reports</li>
+<li>Analytics dashboard with live charts</li>
+</ul>
+
+<h4>🎨 Experience</h4>
+<ul>
+<li>Fully responsive, mobile-first UI (WhatsApp-style chat on mobile)</li>
+<li>Dark mode across the entire app</li>
+<li>Animated, modern interface (Framer Motion)</li>
+<li>CDN-backed media via ImageKit</li>
+</ul>
+
+</td>
+</tr>
+</table>
+
 <br/>
 
 ## 🛠 Tech Stack
@@ -213,8 +240,6 @@ erDiagram
 ```
 
 <br/>
-
-## 📸 Screenshots
 
 ## 📸 Screenshots
 
